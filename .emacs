@@ -72,29 +72,6 @@
   (ivy-mode 1))
 
 
-(require 'js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
-;; Better imenu
-(add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-
-(require 'js2-refactor)
-(require 'xref-js2)
-
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-(js2r-add-keybindings-with-prefix "C-c C-r")
-(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
-
-;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
-;; unbind it.
-(define-key js-mode-map (kbd "M-.") nil)
-
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-
-(setq js-indent-level 2)
-
-
 (ivy-mode)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
@@ -120,24 +97,9 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 10)))
 
-;;; Move Text
-(require 'move-text)
-(global-set-key (kbd "M-p") 'move-text-up)
-(global-set-key (kbd "M-n") 'move-text-down)
 
 (require 'yasnippet)
 (yas-global-mode 1)
-
-;;; auto complete mod
-;;; should be loaded after yasnippet so that they can work together
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-(ac-config-default)
-;;; set the trigger key so that it can work together with yasnippet on tab key,
-;;; if the word exists in yasnippet, pressing tab will cause yasnippet to
-;;; activate, otherwise, auto-complete will
-(ac-set-trigger-key "TAB")
-(ac-set-trigger-key "<tab>")
 
 (add-to-list 'load-path "~/.emacs.d/auto-complete-clang/")
 (require 'auto-complete-clang)
